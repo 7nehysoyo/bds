@@ -231,8 +231,6 @@ type XRP struct {
 	DatabaseEnable             bool   `ini:"database_enable"`
 	DatabaseWorkerBuffer       int    `ini:"database_worker_buffer"`
 	DatabaseWorkerNumber       int    `ini:"database_worker_number"`
-	SkipHeight                 int    `ini:"skip_height"`
-	SkipMissBlock              bool   `ini:"skip_miss_block"`
 	MaxBatchBlock              int    `ini:"max_batch_block"`
 	Endpoint                   string `ini:"endpoint"`
 	KafkaProxyHost             string `ini:"kafka_proxy_host"`
@@ -303,9 +301,8 @@ type CronTRON struct {
 	UpdateMetaExpr string `ini:"update_meta_expr"`
 }
 type CronXRP struct {
-	UpdateMetaExpr      string `ini:"update_meta_expr"`
-	GetBatchBlockExpr   string `ini:"get_batch_block_expr"`
-	RefreshPoolNameExpr string `ini:"refresh_pool_name_expr"`
+	UpdateMetaExpr     string `ini:"update_meta_expr"`
+	GetBatchLedgerExpr string `ini:"get_batch_ledger_expr"`
 }
 
 type CronXLM struct {

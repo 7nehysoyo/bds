@@ -18,7 +18,7 @@ import (
 	"github.com/jdcloud-bds/bds/splitter/ltc"
 	"github.com/jdcloud-bds/bds/splitter/tron"
 	"github.com/jdcloud-bds/bds/splitter/xlm"
-	"github.com/jdcloud-bds/bds/splitter/xrp"
+	"github.com/jdcloud-bds/bds/splitter/ripple"
 )
 
 type Splitter struct {
@@ -756,7 +756,7 @@ func (p *Splitter) Run() {
 
 	//Loading configuration file information of XRP node
 	if config.SplitterConfig.XRPSetting.Enable {
-		xrpConfig := &xrp.SplitterConfig{
+		xrpConfig := &ripple.SplitterConfig{
 			p.xrpEngine,
 			p.xrpConsumer,
 			config.SplitterConfig.KafkaXRPSetting.Topic,
@@ -770,7 +770,7 @@ func (p *Splitter) Run() {
 			config.SplitterConfig.XRPSetting.DatabaseWorkerNumber,
 			config.SplitterConfig.XRPSetting.DatabaseWorkerBuffer,
 		}
-		xrpSplitter, err := xrp.NewSplitter(xrpConfig)
+		xrpSplitter, err := ripple.NewSplitter(xrpConfig)
 		if err != nil {
 			panic(err)
 		}

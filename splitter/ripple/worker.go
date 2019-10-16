@@ -1,4 +1,4 @@
-package xrp
+package ripple
 
 import (
 	"github.com/jdcloud-bds/bds/common/cron"
@@ -24,7 +24,7 @@ func (w *CronWorker) Prepare() error {
 	}
 
 	for _, job := range jobList {
-		log.Debug("worker xrp: prepare %s", job.Name())
+		log.Debug("worker ripple: prepare %s", job.Name())
 		err := job.run()
 		if err != nil {
 			return err
@@ -47,18 +47,18 @@ func (w *CronWorker) Start() error {
 			return err
 		}
 		stats.Add(MetricCronWorkerJob, 1)
-		log.Info("worker xrp: add job %s", job.Name())
+		log.Info("worker ripple: add job %s", job.Name())
 	}
 
-	expr = config.SplitterConfig.CronXRPSetting.GetBatchBlockExpr
+	expr = config.SplitterConfig.CronXRPSetting.GetBatchLedgerExpr
 	if len(expr) != 0 {
-		job = newGetBatchBlockJob(w.splitter)
+		job = newGetBatchLedgerJob(w.splitter)
 		err = w.crontab.AddJob(job.Name(), expr, job)
 		if err != nil {
 			return err
 		}
 		stats.Add(MetricCronWorkerJob, 1)
-		log.Info("worker xrp: add job %s", job.Name())
+		log.Info("worker ripple: add job %s", job.Name())
 	}
 
 	w.crontab.Start()

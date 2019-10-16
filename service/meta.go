@@ -14,9 +14,9 @@ import (
 	"github.com/jdcloud-bds/bds/service/model/etc"
 	"github.com/jdcloud-bds/bds/service/model/eth"
 	"github.com/jdcloud-bds/bds/service/model/ltc"
+	"github.com/jdcloud-bds/bds/service/model/ripple"
 	"github.com/jdcloud-bds/bds/service/model/tron"
 	"github.com/jdcloud-bds/bds/service/model/xlm"
-	"github.com/jdcloud-bds/bds/service/model/xrp"
 )
 
 var (
@@ -130,14 +130,23 @@ var (
 		new(eos.Transaction).TableName(): new(eos.Transaction),
 		new(eos.Action).TableName():      new(eos.Action),
 
-		// xrp
-		new(xrp.Meta).TableName():          new(xrp.Meta),
-		new(xrp.Block).TableName():         new(xrp.Block),
-		new(xrp.Transaction).TableName():   new(xrp.Transaction),
-		new(xrp.Path).TableName():          new(xrp.Path),
-		new(xrp.Account).TableName():       new(xrp.Account),
-		new(xrp.AffectedNodes).TableName(): new(xrp.AffectedNodes),
-		new(xrp.Amount).TableName():        new(xrp.Amount),
+		// ripple
+		new(ripple.Meta).TableName():                 new(ripple.Meta),
+		new(ripple.Ledger).TableName():               new(ripple.Ledger),
+		new(ripple.AccountSet).TableName():           new(ripple.AccountSet),
+		new(ripple.DepositPreauth).TableName():       new(ripple.DepositPreauth),
+		new(ripple.EscrowCancel).TableName():         new(ripple.EscrowCancel),
+		new(ripple.EscrowCreate).TableName():         new(ripple.EscrowCreate),
+		new(ripple.EscrowFinish).TableName():         new(ripple.EscrowFinish),
+		new(ripple.OfferCancel).TableName():          new(ripple.OfferCancel),
+		new(ripple.OfferCreate).TableName():          new(ripple.OfferCreate),
+		new(ripple.Payment).TableName():              new(ripple.Payment),
+		new(ripple.PaymentChannelClaim).TableName():  new(ripple.PaymentChannelClaim),
+		new(ripple.PaymentChannelCreate).TableName(): new(ripple.PaymentChannelCreate),
+		new(ripple.PaymentChannelFund).TableName():   new(ripple.PaymentChannelFund),
+		new(ripple.SetRegularKey).TableName():        new(ripple.SetRegularKey),
+		new(ripple.SignerListSet).TableName():        new(ripple.SignerListSet),
+		new(ripple.TrustSet).TableName():             new(ripple.TrustSet),
 
 		// doge
 		new(doge.Meta).TableName():                     new(doge.Meta),
@@ -456,13 +465,13 @@ func CheckEOSTable(engine *xorm.Engine) error {
 }
 
 func CheckXRPTable(engine *xorm.Engine) error {
-	err := syncTable(engine, fmt.Sprintf("%s_meta", xrp.TablePrefix), nil)
+	err := syncTable(engine, fmt.Sprintf("%s_meta", ripple.TablePrefix), nil)
 	if err != nil {
 		return err
 	}
 
 	fn := func(tableName string) error {
-		meta := new(xrp.Meta)
+		meta := new(ripple.Meta)
 		meta.Name = engine.TableName(tableName)
 		if meta.Name != meta.TableName() {
 			has, err := engine.Get(meta)
@@ -482,7 +491,7 @@ func CheckXRPTable(engine *xorm.Engine) error {
 		return nil
 	}
 
-	err = syncTable(engine, xrp.TablePrefix, fn)
+	err = syncTable(engine, ripple.TablePrefix, fn)
 	if err != nil {
 		return err
 	}

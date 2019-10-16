@@ -86,8 +86,8 @@ func (c *Client) CallXRP(method string, params ...interface{}) ([]byte, error) {
 
 	errorMap := json.GetBytes(response, "error").Map()
 	if len(errorMap) != 0 {
-		code := json.GetBytes(response, "error.code").Int()
-		msg := json.GetBytes(response, "error.message").String()
+		code := json.GetBytes(response, "error_code").Int()
+		msg := json.GetBytes(response, "error_message").String()
 		return nil, errors.New(fmt.Sprintf("error: %d %s", code, msg))
 	}
 
