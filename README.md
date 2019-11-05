@@ -1,6 +1,8 @@
 # BDS 
 ![logo](./docs/bds-logo.png)
 
+* [简体中文](./README.zh-cn.md)
+
 ## Introduction
 JD Cloud Blockchain Data Service (BDS) is a realtime data aggregating, analyzing and visualization service for chain-like unstructured data from all kinds of 3rd party Blockchains
 
