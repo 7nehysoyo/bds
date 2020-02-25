@@ -37,10 +37,10 @@ func ParseBlock(data string) (*BSVBlockData, error) {
 	txItemList := json.Get(data, "tx").Array()
 	for txN, txItem := range txItemList {
 		tx := new(model.Transaction)
-		tx.TxID = json.Get(txItem.String(), "tx_id").String()
+		tx.TxID = json.Get(txItem.String(), "txid").String()
 		tx.Version = json.Get(txItem.String(), "version").Int()
 		tx.Size = json.Get(txItem.String(), "size").Int()
-		tx.LockTime = json.Get(txItem.String(), "lock_time").Int()
+		tx.LockTime = json.Get(txItem.String(), "locktime").Int()
 		tx.Hash = json.Get(txItem.String(), "hash").String()
 		tx.Number = int64(txN)
 
@@ -50,9 +50,9 @@ func ParseBlock(data string) (*BSVBlockData, error) {
 			vIn.Sequence = json.Get(vInItem.String(), "sequence").Int()
 			vIn.Coinbase = json.Get(vInItem.String(), "coinbase").String()
 			if vIn.Coinbase == "" {
-				vIn.TxIDOrigin = json.Get(vInItem.String(), "tx_id_origin").String()
-				vIn.VOutNumberOrigin = json.Get(vInItem.String(), "vout_num_origin").Int()
-				vIn.ScriptSignature = json.Get(vInItem.String(), "script_sig").String()
+				vIn.TxIDOrigin = json.Get(vInItem.String(), "txid").String()
+				vIn.VOutNumberOrigin = json.Get(vInItem.String(), "vout").Int()
+				vIn.ScriptSignature = json.Get(vInItem.String(), "scriptSig").String()
 			}
 
 			vIn.TxID = tx.TxID
@@ -68,10 +68,10 @@ func ParseBlock(data string) (*BSVBlockData, error) {
 		for vOutN, vOutItem := range vOutItemList {
 			vOut := new(model.VOut)
 			vOut.Value = math.Float64ToUint64(json.Get(vOutItem.String(), "value").Float() * 100000000)
-			vOut.ScriptPublicKey = json.Get(vOutItem.String(), "script_pubkey").String()
-			vOut.RequiredSignatures = json.Get(vOutItem.String(), "required_signatures").Int()
-			vOut.Type = json.Get(vOutItem.String(), "type").String()
-			addresses := json.Get(vOutItem.String(), "addresses").Array()
+			vOut.ScriptPublicKey = json.Get(vOutItem.String(), "scriptPubKey.hex").String()
+			vOut.RequiredSignatures = json.Get(vOutItem.String(), "scriptPubKey.reqSigs").Int()
+			vOut.Type = json.Get(vOutItem.String(), "scriptPubKey.type").String()
+			addresses := json.Get(vOutItem.String(), "scriptPubKey.addresses").Array()
 			if len(addresses) == 1 {
 				vOut.Address = addresses[0].String()
 				vOut.Address = strings.Replace(vOut.Address, "bitcoincash:", "", -1)
